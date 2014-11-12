@@ -1,3 +1,6 @@
+import sys
+sys.path.append("..")
+
 from utilities.primes import factor_big_nums
 
 
