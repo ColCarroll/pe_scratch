@@ -20,7 +20,7 @@ def can_solve():
         problem_number = int(args[1])
     except ValueError:
         return dummy_func("Problem number must be an int")
-    pattern = re.compile(r"(solved|problems)\.p{:d}".format(problem_number))
+    pattern = re.compile(r"^(solved|problems)\.p{:d}$".format(problem_number))
     for module_name, module in sys.modules.iteritems():
         match = pattern.match(module_name)
         if match:
@@ -34,7 +34,7 @@ def can_solve():
                     str(t1)))
             else:
                 print("Problem {:d} in progress.  Current output:".format(problem_number))
-                module.main()
+                print(module.main())
                 return dummy_func("")
     return dummy_func("Cannot find problem {:d}".format(problem_number))
 
