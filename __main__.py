@@ -12,6 +12,22 @@ def dummy_func(string):
     return func
 
 
+def all_problems():
+    pattern = re.compile(r"^(solved|problems)\.p(\d+)$")
+    available = {"solved": [], "problems": []}
+    for module_name, module in sys.modules.iteritems():
+        match = pattern.match(module_name)
+        if match:
+            available[match.group(1)].append(match.group(2))
+
+    avail_str = "The following problems are solved:\n\t"
+    avail_str += "\n\t".join(map(str, sorted(available["solved"])))
+    if available["problems"]:
+        avail_str += "\nThe following problems are in progress:\n\t"
+        avail_str += "\n\t".join(map(str, sorted(available["problems"])))
+    return avail_str
+
+
 def can_solve():
     args = sys.argv
     if len(args) != 2:
@@ -36,7 +52,7 @@ def can_solve():
                 print("Problem {:d} in progress.  Current output:".format(problem_number))
                 print(module.main())
                 return dummy_func("")
-    return dummy_func("Cannot find problem {:d}".format(problem_number))
+    return dummy_func("Cannot find problem {:d}\n{:s}".format(problem_number, all_problems()))
 
 
 def __main():
