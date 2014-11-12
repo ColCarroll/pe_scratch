@@ -1,4 +1,3 @@
-import time
 import math
 from utilities.primes import primes
 
@@ -36,7 +35,5 @@ def solve(upper_bound):
     print tot
 
 
-if __name__ == '__main__':
-    t0 = time.time()
-    solve(1000000)
-    print(time.time() - t0)
+def main():
+    return solve(1000000)

@@ -1,4 +1,5 @@
 from collections import Counter
+import time
 
 
 def laminae_tiles(hole_size=2, ring_size=2):
@@ -26,8 +27,4 @@ def solve(max_tiles=1000):
 
 
 def main():
-    print(solve(1000000))
-
-
-if __name__ == '__main__':
-    main()
+    return solve(1000000)

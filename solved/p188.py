@@ -25,7 +25,3 @@ def tetration(x, n, digits=8):
 
 def main():
     print(tetration(1777, 1855, 8))
-
-
-if __name__ == '__main__':
-    main()

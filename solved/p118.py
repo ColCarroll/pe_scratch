@@ -50,10 +50,4 @@ def pandigital_primes(set_=set(range(1, 10))):
 
 
 def main():
-    t0 = time.time()
-    print(pandigital_primes())
-    print(time.time() - t0)
-
-
-if __name__ == '__main__':
-    main()
+    return pandigital_primes()

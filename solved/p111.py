@@ -44,10 +44,4 @@ def solve(num_digits):
 
 
 def main():
-    t0 = time.time()
-    print(solve(10))
-    print(time.time() - t0)
-
-
-if __name__ == '__main__':
-    main()
+    return solve(10)

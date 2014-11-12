@@ -1,6 +1,3 @@
-import sys
-sys.path.append("..")
-
 from utilities.primes import factor_big_nums
 
 
@@ -10,6 +7,7 @@ def repunit(num_digs):
 
 def factor(num):
     return factor_big_nums(num)(num)
+
 
 def factor_repunit(num_digs):
     factor = factor_big_nums(10 ** num_digs)
