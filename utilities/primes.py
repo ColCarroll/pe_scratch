@@ -1,11 +1,57 @@
+import math
+
+
 def primes(upper_bound):
-    prime_list, sieve = [], [True] * (upper_bound + 1)
-    for p in range(2, upper_bound + 1):
+    prime_list, sieve = [2], [True, True] + ([False, True] * (upper_bound / 2))
+    for p in xrange(3, upper_bound + 1):
         if sieve[p]:
             prime_list.append(p)
             for i in range(p * p, upper_bound + 1, p):
                 sieve[i] = False
     return prime_list
+
+
+def nth_prime(n):
+    """
+    :param n: Integer, which prime you want to find
+    :return: the nth prime number.  ex: nth_prime(1) returns 2, and nth_prime(4) returns 7
+    """
+    upper_bound = solve_monotone_func(lambda x: x / math.log(x), n, 2)  # prime number theorem
+    sieve = [True, True] + ([False, True] * (upper_bound / 2))
+    primes_found = 0
+    for p in xrange(2, upper_bound + 1):
+        if sieve[p]:
+            primes_found += 1
+            if primes_found == n:
+                return p
+            for i in range(p * p, upper_bound + 1, p):
+                sieve[i] = False
+
+
+def solve_monotone_func(func, equals, start=0):
+    """
+    :param func: A monotonic increasing function of an integer
+    :param equals: A number you'd like the function to be equal to
+    :param start: Where to start checking.  Usually 0 is good (unless func = x / log(x), or something)
+    :return: the natural number n such that abs(func(n) - equals) is minimized
+    """
+    candidate = start
+    sign = 1
+    step = 1
+    while func(candidate) < equals:
+        candidate += sign * step
+        step *= 2
+
+    while step > 1:
+        step /= 2
+        sign = cmp(equals, func(candidate))
+        while cmp(equals, func(candidate)) == sign:
+            candidate += sign * step
+
+    other_candidate = candidate - sign * step
+    if abs(func(other_candidate) - equals) < abs(func(candidate) - equals):
+        return other_candidate
+    return candidate
 
 
 def is_big_prime(upper_bound):

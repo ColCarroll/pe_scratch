@@ -1,8 +1,9 @@
 import glob
 import os
 import re
-import time
+import shlex
 import sys
+import timeit
 
 
 def import_problems(fname):
@@ -26,13 +27,11 @@ def can_solve(args):
         match = pattern.match(module_name)
         if match:
             if match.group(1) == "solved":
-                t0 = time.time()
                 solution = module.main()
-                t1 = time.time() - t0
-                print("Solution to problem {:d}: {:s}\nTime to compute: {:s} seconds".format(
+                print("Solution to problem {:d}: {:s}\n\nBenchmarking...\n".format(
                     problem_number,
-                    str(solution),
-                    str(t1)))
+                    str(solution)))
+                timeit.main(args=shlex.split("-s'from {:s} import main' 'main()'".format(module_name)))
                 return
             else:
                 print("Problem {:d} in progress.  Current output:".format(problem_number))
