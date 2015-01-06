@@ -1,6 +1,24 @@
 import math
 
 
+def prime_generator():
+    prime_nums = [2]
+    counter = 3
+    yield 2
+    while True:
+        j = 0
+        is_prime = True
+        while prime_nums[j] * prime_nums[j] <= counter:
+            if counter % prime_nums[j] == 0:
+                is_prime = False
+                break
+            j += 1
+        if is_prime:
+            prime_nums.append(counter)
+            yield prime_nums[-1]
+        counter += 2
+
+
 def primes(upper_bound):
     prime_list, sieve = [2], [True, True] + ([False, True] * (upper_bound / 2))
     for p in xrange(3, upper_bound + 1):
