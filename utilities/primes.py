@@ -1,3 +1,4 @@
+from collections import Counter
 import math
 
 
@@ -126,3 +127,21 @@ def factor_num(num):
         prime += 2
     if num > 1:
         yield num
+
+
+def divisor_gen(num):
+    factors = Counter(factor_num(num)).items()
+    n_factors = len(factors)
+    f = [0] * n_factors
+    while True:
+        yield reduce(lambda x, y: x * y, [factors[x][0] ** f[x] for x in xrange(n_factors)], 1)
+        i = 0
+        while True:
+            f[i] += 1
+            if f[i] <= factors[i][1]:
+                break
+            f[i] = 0
+            i += 1
+            if i >= n_factors:
+                return
+
