@@ -32,7 +32,7 @@ def solve(upper_bound):
     prime_list = primes(int(1.01 * upper_bound))
     for idx, prime in (j for j in enumerate(prime_list) if 5 <= j[1] <= upper_bound):
         tot += connection(*prime_list[idx:idx + 2])
-    print tot
+    print(tot)
 
 
 def main():

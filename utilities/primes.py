@@ -5,7 +5,7 @@ import math
 def prime_generator():
     prime_nums = [2]
     counter = 3
-    yield 2
+    yield prime_nums[-1]
     while True:
         j = 0
         is_prime = True
@@ -21,8 +21,8 @@ def prime_generator():
 
 
 def primes(upper_bound):
-    prime_list, sieve = [2], [True, True] + ([False, True] * (upper_bound / 2))
-    for p in xrange(3, upper_bound + 1):
+    prime_list, sieve = [2], [True, True] + ([False, True] * (upper_bound // 2))
+    for p in range(3, upper_bound + 1):
         if sieve[p]:
             prime_list.append(p)
             for i in range(p * p, upper_bound + 1, p):
@@ -35,10 +35,15 @@ def nth_prime(n):
     :param n: Integer, which prime you want to find
     :return: the nth prime number.  ex: nth_prime(1) returns 2, and nth_prime(4) returns 7
     """
-    upper_bound = solve_monotone_func(lambda x: x / math.log(x), n, 2)  # prime number theorem
-    sieve = [True, True] + ([False, True] * (upper_bound / 2))
-    primes_found = 0
-    for p in xrange(2, upper_bound + 1):
+    if n < 1: return 0
+    if n == 1: return 2
+    if n < 4:
+        upper_bound = 10
+    else:
+        upper_bound = solve_monotone_func(lambda x: x / math.log(x), n, 2)  # prime number theorem
+    sieve = [True, True] + ([False, True] * (upper_bound // 2))
+    primes_found = 1
+    for p in range(2, upper_bound + 1):
         if sieve[p]:
             primes_found += 1
             if primes_found == n:
@@ -62,7 +67,7 @@ def solve_monotone_func(func, equals, start=0):
         step *= 2
 
     while step > 1:
-        step /= 2
+        step //= 2
         sign = cmp(equals, func(candidate))
         while cmp(equals, func(candidate)) == sign:
             candidate += sign * step
@@ -101,7 +106,7 @@ def factor_big_nums(upper_bound):
         for prime in p:
             while num % prime == 0:
                 yield prime
-                num /= prime
+                num //= prime
             if prime * prime > num:
                 break
         if num > 1:
@@ -118,23 +123,27 @@ def factor_num(num):
     """
     while num % 2 == 0:
         yield 2
-        num /= 2
+        num //= 2
     prime = 3
     while prime * prime <= num:
         while num % prime == 0:
             yield prime
-            num /= prime
+            num //= prime
         prime += 2
     if num > 1:
         yield num
 
 
 def divisor_gen(num):
-    factors = Counter(factor_num(num)).items()
+    for factor in divisor_gen_from_factors(factor_num(num)):
+        yield factor
+
+def divisor_gen_from_factors(factor_array):
+    factors = Counter([j for j in factor_array if j > 1]).items()
     n_factors = len(factors)
     f = [0] * n_factors
     while True:
-        yield reduce(lambda x, y: x * y, [factors[x][0] ** f[x] for x in xrange(n_factors)], 1)
+        yield reduce(lambda x, y: x * y, [factors[x][0] ** f[x] for x in range(n_factors)], 1)
         i = 0
         while True:
             f[i] += 1
@@ -144,4 +153,5 @@ def divisor_gen(num):
             i += 1
             if i >= n_factors:
                 return
+
 

@@ -21,7 +21,7 @@ def main():
     tot = 0
     for j in digit_generator(0, 4, 9):
         tot += 1
-    print tot
+    print(tot)
 
 
 if __name__ == '__main__':
